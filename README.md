@@ -1,4 +1,4 @@
-# Community Connect - README
+# Community Connect
 
 ## 1. Project Overview
 
@@ -85,35 +85,34 @@ The development of Community Connect follows an Agile methodology, ensuring cont
    git clone https://github.com/your-repository/community-connect.git
    cd community-connect ```
 2. **Install Dependencies (Frontend and Backend):**
-
-Navigate to the frontend/ and backend/ directories separately and run:
-```bash
-npm install
-```
+   Navigate to the frontend/ and backend/ directories separately and run:
+   ```bash
+   npm install
+   ```
 
 3. **Environment Variables:**
-
-Create a .env file in the backend directory with the following environment variables:
-```bash
-MONGO_URI=mongodb://localhost:27017/community-connect
-JWT_SECRET=your_jwt_secret
-CHAT_SERVER=http://localhost:5000
-```
+   
+   Create a .env file in the backend directory with the following environment variables:
+   ```bash
+   MONGO_URI=mongodb://localhost:27017/community-connect
+   JWT_SECRET=your_jwt_secret
+   CHAT_SERVER=http://localhost:5000
+   ```
 4. **Running the Application:**
-
-Frontend:
-```bash
-npm start
-```
-Backend:
-```bash
-npm run dev
-```
+   
+   Frontend:
+   ```bash
+   npm start
+   ```
+   Backend:
+   ```bash
+   npm run dev
+   ```
 5. **Accessing the Application:**
-```bash
-Frontend: http://localhost:3000
-Backend API: http://localhost:5000/api
-```
+   ```bash
+   Frontend: http://localhost:3000
+   Backend API: http://localhost:5000/api
+   ```
 ## 6. Deployment**
 Frontend
 Deploy the React frontend using a service like Netlify or Vercel.
