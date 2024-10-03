@@ -84,14 +84,14 @@ The development of Community Connect follows an Agile methodology, ensuring cont
    ```bash
    git clone https://github.com/your-repository/community-connect.git
    cd community-connect ```
-2. **Install Dependencies (Frontend and Backend):
+2. **Install Dependencies (Frontend and Backend):**
 
 Navigate to the frontend/ and backend/ directories separately and run:
 ```bash
 npm install
 ```
 
-3. **Environment Variables:
+3. **Environment Variables:**
 
 Create a .env file in the backend directory with the following environment variables:
 ```bash
@@ -99,7 +99,7 @@ MONGO_URI=mongodb://localhost:27017/community-connect
 JWT_SECRET=your_jwt_secret
 CHAT_SERVER=http://localhost:5000
 ```
-4. **Running the Application:
+4. **Running the Application:**
 
 Frontend:
 ```bash
@@ -109,12 +109,12 @@ Backend:
 ```bash
 npm run dev
 ```
-5. **Accessing the Application:
+5. **Accessing the Application:**
 ```bash
 Frontend: http://localhost:3000
 Backend API: http://localhost:5000/api
 ```
-## 6. Deployment
+## 6. Deployment**
 Frontend
 Deploy the React frontend using a service like Netlify or Vercel.
 
@@ -136,11 +136,11 @@ To run the tests, use the following command in the respective directories:
 npm run test
 ```
 ## 8. Final Deliverables
-Research Documentation: A comprehensive document detailing the problem analysis, solution design, architecture, and challenges faced during development.
-PowerPoint Presentation: A presentation highlighting the project's key features, architecture, and the lessons learned throughout the process.
-Demonstration Video: A video walkthrough of the application, showcasing its functionality, usability, and real-time features.
-GitHub Repository: A fully documented GitHub repository containing the complete source code, instructions, and detailed comments.
-Deployment Link: A live demo of the application hosted on Netlify (frontend) and Heroku (backend).
+1. Research Documentation: A comprehensive document detailing the problem analysis, solution design, architecture, and challenges faced during development.
+2. PowerPoint Presentation: A presentation highlighting the project's key features, architecture, and the lessons learned throughout the process.
+3. Demonstration Video: A video walkthrough of the application, showcasing its functionality, usability, and real-time features.
+4. GitHub Repository: A fully documented GitHub repository containing the complete source code, instructions, and detailed comments.
+5. Deployment Link: A live demo of the application hosted on Netlify (frontend) and Heroku (backend).
 
 ## 9. Lessons Learned
 Key Takeaways from the Development Process:
