@@ -1,5 +1,26 @@
 # Community Connect
 
+## Table of Contents
+
+1. [Project Overview](#1-project-overview)
+2. [Core Features](#2-core-features)
+3. [Technical Architecture](#3-technical-architecture)
+   - [Frontend](#frontend)
+   - [Backend](#backend)
+4. [Agile Development Process](#4-agile-development-process)
+5. [Setup and Installation](#5-setup-and-installation)
+   - [Prerequisites](#prerequisites)
+   - [Installation Steps](#installation-steps)
+6. [Deployment](#6-deployment)
+   - [Frontend Deployment](#frontend-deployment)
+   - [Backend Deployment](#backend-deployment)
+7. [Testing](#7-testing)
+   - [Frontend Testing](#frontend-testing)
+   - [Backend Testing](#backend-testing)
+8. [Final Deliverables](#8-final-deliverables)
+9. [Lessons Learned](#9-lessons-learned)
+10. [Future Improvements](#10-future-improvements)
+
 ## 1. Project Overview
 
 **Project Title:** Community Connect  
@@ -113,7 +134,7 @@ The development of Community Connect follows an Agile methodology, ensuring cont
    Frontend: http://localhost:3000
    Backend API: http://localhost:5000/api
    ```
-## 6. Deployment**
+## 6. Deployment
 Frontend
 Deploy the React frontend using a service like Netlify or Vercel.
 
@@ -124,36 +145,36 @@ Host the Node.js backend on Heroku or DigitalOcean. Ensure MongoDB is properly c
 Testing is a crucial aspect of the project to ensure reliability and a bug-free experience. Both the frontend and backend will have dedicated tests for key functionality.
 
 Frontend Testing
-- Unit Tests: Written using Jest to ensure individual components function correctly.
-- Integration Tests: Using React Testing Library to simulate user flows, such as login, profile updates, and service booking.
+   - Unit Tests: Written using Jest to ensure individual components function correctly.
+   - Integration Tests: Using React Testing Library to simulate user flows, such as login, profile updates, and service booking.
 Backend Testing
-- Unit Tests: Testing individual API routes and business logic using Mocha and Chai.
-- Integration Tests: End-to-end tests covering user authentication, booking flow, and chat interactions.
+   - Unit Tests: Testing individual API routes and business logic using Mocha and Chai.
+   - Integration Tests: End-to-end tests covering user authentication, booking flow, and chat interactions.
 Running Tests
 To run the tests, use the following command in the respective directories:
-```bash
-npm run test
-```
+   ```bash
+   npm run test
+   ```
 ## 8. Final Deliverables
-1. Research Documentation: A comprehensive document detailing the problem analysis, solution design, architecture, and challenges faced during development.
-2. PowerPoint Presentation: A presentation highlighting the project's key features, architecture, and the lessons learned throughout the process.
-3. Demonstration Video: A video walkthrough of the application, showcasing its functionality, usability, and real-time features.
-4. GitHub Repository: A fully documented GitHub repository containing the complete source code, instructions, and detailed comments.
-5. Deployment Link: A live demo of the application hosted on Netlify (frontend) and Heroku (backend).
+   1. Research Documentation: A comprehensive document detailing the problem analysis, solution design, architecture, and challenges faced during development.
+   2. PowerPoint Presentation: A presentation highlighting the project's key features, architecture, and the lessons learned throughout the process.
+   3. Demonstration Video: A video walkthrough of the application, showcasing its functionality, usability, and real-time features.
+   4. GitHub Repository: A fully documented GitHub repository containing the complete source code, instructions, and detailed comments.
+   5. Deployment Link: A live demo of the application hosted on Netlify (frontend) and Heroku (backend).
 
 ## 9. Lessons Learned
 Key Takeaways from the Development Process:
-- Real-Time Communication: Implementing real-time chat using Socket.IO provided invaluable insights into handling bi-directional communication between users.
-State Management with Redux: Managing global state for different user roles (businesses, consumers) required careful planning and structure using Redux.
-- Multi-Tenant Architecture: Designing a multi-tenant platform with multiple user types introduced challenges in maintaining role-based access control and personalized experiences.
-- Agile Methodology: Iterative development, task prioritization, and continuous feedback helped in building a robust and scalable platform.
+   - Real-Time Communication: Implementing real-time chat using Socket.IO provided invaluable insights into handling bi-directional communication between users.
+   State Management with Redux: Managing global state for different user roles (businesses, consumers) required careful planning and structure using Redux.
+   - Multi-Tenant Architecture: Designing a multi-tenant platform with multiple user types introduced challenges in maintaining role-based access control and personalized                experiences.
+   - Agile Methodology: Iterative development, task prioritization, and continuous feedback helped in building a robust and scalable platform.
 
 ## 10. Future Improvements
 In future iterations, the following features could be added:
 
-- Mobile Application: A native mobile app for Android and iOS, enhancing accessibility.
-- Payment Gateway Integration: Adding support for online payments and invoicing directly within the platform.
-- AI-Driven Recommendations: Implementing machine learning algorithms to provide personalized service recommendations to users.
-- Localization: Support for multiple languages to cater to diverse communities.
-- Project Link: Community Connect Live Demo
-- GitHub Repository: Community Connect GitHub
+   - Mobile Application: A native mobile app for Android and iOS, enhancing accessibility.
+   - Payment Gateway Integration: Adding support for online payments and invoicing directly within the platform.
+   - AI-Driven Recommendations: Implementing machine learning algorithms to provide personalized service recommendations to users.
+   - Localization: Support for multiple languages to cater to diverse communities.
+   - Project Link: Community Connect Live Demo
+   - GitHub Repository: Community Connect GitHub
