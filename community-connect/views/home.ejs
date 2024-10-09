@@ -1,0 +1,27 @@
+<%- include('partials/header'); -%>
+
+<header>
+  <h1>Community Connect</h1>
+
+  <ul>
+    <% if (user) { %>
+    <button>Welcome, <%- user.username %></button>
+    <button><a href="/">Home</a></button>
+    <button><a href="/logout">Logout</a></button>
+    <% } else { %>
+    <button><a href="/signup">Sign Up</a></button>
+    <button><a href="/login">Login</a></button>
+    <% } %>
+  </ul>
+</header>
+
+<body>
+  <h2>Home</h2>
+  <p>
+    Welcome to Community Connect. Connect with your community by exploring
+    events, joining groups, and meeting new people.
+  </p>
+  <button><a href="/explore">Explore</a></button>
+</body>
+
+<%- include('partials/footer'); -%>
