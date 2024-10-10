@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+require("dotenv").config();
+
+const jwtSecret = process.env.JWT_SECRET;
 
 const requireAuth = (req, res, next) => {
   //grab the token named jwt from the cookies
@@ -7,10 +10,10 @@ const requireAuth = (req, res, next) => {
 
   // check json web token exists & is verified
   if (token) {
-    jwt.verify(token, "community-connect secret", (err, decodedToken) => {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
       if (err) {
         console.log(err.message);
-        res.redirect("/login");
+        return res.status(401).json({ error: "Unauthorized access" }).redirect("/login");
       } else {
         console.log(decodedToken);
         next();
@@ -26,7 +29,7 @@ const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (token) {
-    jwt.verify(token, "community-connect secret", async (err, decodedToken) => {
+    jwt.verify(token, jwtSecret, async (err, decodedToken) => {
       if (err) {
         console.log(err.message);
 
