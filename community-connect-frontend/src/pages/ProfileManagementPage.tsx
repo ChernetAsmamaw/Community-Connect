@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom'; // Import useLocation
+import { useLocation } from 'react-router-dom';
+import { FaBars, FaTimes } from 'react-icons/fa'; // Icons for burger menu
 
 const ProfileManagementPage: React.FC = () => {
   const location = useLocation();
   const [selectedSection, setSelectedSection] = useState<string>('Profile');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar toggle
 
   // Check if state was passed from the Header for Notifications
   useEffect(() => {
@@ -20,8 +22,6 @@ const ProfileManagementPage: React.FC = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-2">Edit Profile</h2>
             <p className="text-gray-600">Here you can edit your email, username, or password.</p>
-
-            {/* Editable Information */}
             <div className="space-y-4 mt-4">
               <div className="bg-gray-100 p-4 rounded-lg">
                 <p className="text-gray-700">Email: joe.poe@example.com</p>
@@ -33,8 +33,6 @@ const ProfileManagementPage: React.FC = () => {
                 <p className="text-gray-700">Password: ********</p>
               </div>
             </div>
-
-            {/* Edit Button */}
             <div className="flex justify-end mt-4">
               <button className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-secondary">
                 Edit Profile
@@ -76,9 +74,32 @@ const ProfileManagementPage: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen p-6">
-      {/* Left Sidebar */}
-      <div className="w-1/4 border-r-2 pr-6">
+    <div className="flex h-screen">
+      {/* Burger Icon for Small Screens */}
+      <div className="md:hidden p-4">
+        <button onClick={() => setIsSidebarOpen(true)} className="text-2xl">
+          <FaBars />
+        </button>
+      </div>
+
+      {/* Sidebar (Hidden on small screens) */}
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden ${
+          isSidebarOpen ? 'block' : 'hidden'
+        }`}
+        onClick={() => setIsSidebarOpen(false)}
+      />
+      <div
+        className={`fixed top-0 left-0 w-64 h-full bg-white z-20 transform ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } transition-transform duration-300 md:relative md:translate-x-0 md:w-1/4 border-r-2 pr-6`}
+      >
+        <div className="md:hidden p-4">
+          <button onClick={() => setIsSidebarOpen(false)} className="text-2xl">
+            <FaTimes />
+          </button>
+        </div>
+
         {/* Profile Picture Upload */}
         <div className="flex flex-col items-center mb-8">
           <div className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center mb-4">
@@ -135,7 +156,7 @@ const ProfileManagementPage: React.FC = () => {
       </div>
 
       {/* Right Content Section */}
-      <div className="w-3/4 pl-6">
+      <div className="w-full md:w-3/4 p-6">
         {renderContent()}
       </div>
     </div>
