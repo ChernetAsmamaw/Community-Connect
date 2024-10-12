@@ -1,116 +1,92 @@
 const User = require("../models/User");
+const ErrorResponse = require("../utils/errorResponse");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// Handle errors
-const handleErrors = (err) => {
-  console.log(err.message, err.code);
-  let errors = { email: "", username: "", password: "" };
+/************ Register a new user ************/
+module.exports.signup = async (req, res, next) => {
+  const { email } = req.body;
 
-  // Validation errors
-  if (err.message.includes("user validation failed")) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
-    });
+  // Check if the user already exists
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    return next(new ErrorResponse("This email is already registered", 400));
   }
-
-  // Duplicate error code (MongoDB error code for unique constraint violation)
-  if (err.code === 11000) {
-    // Check if the error is for 'email' or 'username'
-    if (err.keyPattern.email) {
-      errors.email = "That email is already registered";
-    }
-    if (err.keyPattern.username) {
-      errors.username = "That username is already registered";
-    }
-    return errors;
-  }
-
-  // Incorrect email
-  if (err.message === "incorrect email") {
-    errors.email = "That email is not registered";
-  }
-
-  // Incorrect username
-  if (err.message === "incorrect username") {
-    errors.username = "That username is not registered";
-  }
-
-  // Incorrect password
-  if (err.message === "incorrect password") {
-    errors.password = "That password is incorrect";
-  }
-
-  return errors;
-};
-
-const jwtSecret = process.env.JWT_SECRET;
-
-// JWT
-const createToken = (id) => {
-  // "community-connect secret" is a secret key we're using to hash the token
-  return jwt.sign({ id }, jwtSecret, {
-    expiresIn: 3 * 24 * 60 * 60, // valid for 3 days
-  });
-};
-
-module.exports.signup_get = (req, res) => {
-  res.render("signup");
-};
-
-module.exports.signup_post = async (req, res) => {
-  const { email, username, password } = req.body;
   try {
-    const user = await User.create({ email, username, password });
+    const user = await User.create(req.body);
+    res.status(201).json({ success: true, user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/************ Login a user ************/
+module.exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return next(
+        new ErrorResponse("Please provide an email and password", 400)
+      );
+    }
+
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(new ErrorResponse("Invalid credentials", 401));
+    }
+
+    // Check if password matches
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return next(new ErrorResponse("Invalid credentials", 401));
+    }
+
     // Create a token
-    const token = createToken(user._id);
-    // Set the token as a cookie
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000,
-    });
-    res.status(201).json({ token, message: "User created successfully" });
-  } catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    sendTokenResponse(user, 200, res);
+  } catch (error) {
+    next(error);
   }
 };
 
-module.exports.login_get = (req, res) => {
-  res.render("login");
+// Get token from model, create cookie and send response
+const sendTokenResponse = async (user, statusCode, res) => {
+  // Create token
+  const token = user.getSignedJwtToken();
+
+  res
+    .status(statusCode)
+    .cookie("token", token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    })
+    .json({ success: true, token });
 };
 
-module.exports.login_post = async (req, res) => {
-  const { identifier, password } = req.body;
-
+/************ Logout a user ************/
+module.exports.logout = async (req, res, next) => {
   try {
-    let user;
-    if (identifier.includes("@")) {
-      user = await User.loginWithEmail(identifier, password);
-    } else {
-      user = await User.loginWithUsername(identifier, password);
+    if (!req.cookies.token) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No user is logged in" });
     }
-
-    // Create a token upon successful login
-    const token = createToken(user._id);
-
-    // Set the token as a cookie
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000,
-    });
+    res.clearCookie("token");
     res
       .status(200)
-      .json({ token: token, message: "User logged in successfully" });
-  } catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
+      .json({ success: true, message: "User logged out successfully" });
+  } catch (error) {
+    next(error);
   }
 };
 
-module.exports.logout_get = (req, res) => {
-  // Set the jwt cookie to an empty string and set the maxAge to 1ms
-  // SInce we can't delete a cookie directly, this is the next best thing
-  res.cookie("jwt", "", { maxAge: 1 });
-  res.status(200).redirect("/"); // removed the json response .json({ message: "User logged out successfully" });
+/************ User Profile ************/
+module.exports.profile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    next(error);
+  }
 };

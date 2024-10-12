@@ -1,54 +1,30 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const ErrorResponse = require("../utils/errorResponse");
 require("dotenv").config();
 
-const jwtSecret = process.env.JWT_SECRET;
+/************ Authenticate user to access protected routes ************/
+exports.isAuthenticated = async (req, res, next) => {
+  const { token } = req.cookies;
 
-const requireAuth = (req, res, next) => {
-  //grab the token named jwt from the cookies
-  const token = req.cookies.jwt;
-
-  // check json web token exists & is verified
-  if (token) {
-    jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      if (err) {
-        console.log(err.message);
-        return res.status(401).json({ error: "unauthorized" });
-      } else {
-        console.log(decodedToken);
-        next();
-      }
-    });
-  } else {
-    res.redirect("/login");
+  // Check if token exists
+  if (!token) {
+    return next(new ErrorResponse("Not authorized to access this route", 401));
   }
-};
-
-// Check the current user
-const checkUser = (req, res, next) => {
-  const token = req.cookies.jwt;
-
-  if (token) {
-    jwt.verify(token, jwtSecret, async (err, decodedToken) => {
-      if (err) {
-        console.log(err.message);
-
-        // set the user to null if the token is not verified to prevent errors
-        res.locals.user = null;
-        next();
-      } else {
-        console.log(decodedToken);
-        let user = await User.findById(decodedToken.id);
-
-        // locals is an object that is passed to the views: inject the user into the views
-        res.locals.user = user;
-        next();
-      }
-    });
-  } else {
-    res.locals.user = null;
+  try {
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id);
     next();
+  } catch (error) {
+    return next(new ErrorResponse("Not authorized to access this route", 401));
   }
 };
 
-module.exports = { requireAuth, checkUser };
+/************ Admin user ************/
+exports.isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 0) {
+    return next(new ErrorResponse("Access denied! Must be an admin", 403));
+  }
+  next();
+};
