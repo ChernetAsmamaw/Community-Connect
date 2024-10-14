@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current route location
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to handle burger menu toggle
 
   // Handle search logic
   const handleSearch = () => {
-    // Search logic goes here
     alert('Searching...');
   };
 
@@ -22,12 +22,15 @@ const Header: React.FC = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Function to check if a link is active
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <header className="bg-primary text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo/Company Name */}
         <div className="flex items-center">
-          <a href="/"><h1 className="text-3xl font-bold text-accent">CConnect</h1></a>
+          <a href="/home"><h1 className="text-3xl font-bold text-accent">CConnect</h1></a>
         </div>
 
         {/* Search Bar */}
@@ -58,30 +61,76 @@ const Header: React.FC = () => {
 
         {/* Navigation Links (Hidden on small screens) */}
         <div className="hidden md:flex items-center space-x-4 text-accent">
-        <a href="/" className="hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105">Home</a>
+          <a
+            href="/home"
+            className={`hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              isActive('/home') ? 'text-secondary' : ''
+            }`}
+          >
+            Home
+          </a>
           <button
             onClick={goToNotifications}
-            className="hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105"
+            className={`hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              isActive('/profile') && location.state?.section === 'Notification' ? 'text-secondary' : ''
+            }`}
           >
             Notifications
           </button>
-          <a href="/profile" className="hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105">Profile</a>
-          <a href="/logout" className="hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105">Logout</a>
+          <a
+            href="/profile"
+            className={`hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              isActive('/profile') && !location.state?.section ? 'text-secondary' : ''
+            }`}
+          >
+            Profile
+          </a>
+          <a
+            href="/"
+            className={`hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              isActive('/') ? 'text-secondary' : ''
+            }`}
+          >
+            Logout
+          </a>
         </div>
       </div>
 
       {/* Slide-out Menu for Small Screens */}
       {isMenuOpen && (
         <div className="md:hidden flex flex-col items-center bg-primary p-4 space-y-4 text-accent">
-                  <a href="/" className="hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105">Home</a>
+          <a
+            href="/home"
+            className={`hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              isActive('/home') ? 'text-secondary' : ''
+            }`}
+          >
+            Home
+          </a>
           <button
             onClick={goToNotifications}
-            className="hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105"
+            className={`hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              isActive('/profile') && location.state?.section === 'Notification' ? 'text-secondary' : ''
+            }`}
           >
             Notifications
           </button>
-          <a href="/profile" className="hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105">Profile</a>
-          <a href="/logout" className="hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105">Logout</a>
+          <a
+            href="/profile"
+            className={`hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              isActive('/profile') && !location.state?.section ? 'text-secondary' : ''
+            }`}
+          >
+            Profile
+          </a>
+          <a
+            href="/logout"
+            className={`hover:text-secondary transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              isActive('/') ? 'text-secondary' : ''
+            }`}
+          >
+            Logout
+          </a>
         </div>
       )}
 

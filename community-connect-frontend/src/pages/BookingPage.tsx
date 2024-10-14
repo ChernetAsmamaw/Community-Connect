@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Header from '../components/Header';
 
 // Setup moment.js localizer for the calendar
 const localizer = momentLocalizer(moment);
@@ -33,6 +34,7 @@ const BookingPage: React.FC = () => {
 
   return (
     <div className="p-4">
+      < Header />
       <h1 className="text-3xl font-bold mb-4">Booking</h1>
       <Calendar
         localizer={localizer}

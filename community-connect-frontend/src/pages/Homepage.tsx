@@ -1,6 +1,7 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import BusinessCard from '../components/BusinessCard';
+import Header from '../components/Header';
 
 const Homepage: React.FC = () => {
   const businesses = [
@@ -11,6 +12,7 @@ const Homepage: React.FC = () => {
 
   return (
     <div>
+      < Header />
       {/* Hero Section */}
       <HeroSection />
 
