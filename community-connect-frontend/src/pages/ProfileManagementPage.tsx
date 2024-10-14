@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import Header from '../components/Header';
 import MyCalendar from '../components/MyCalendar';
+import Messages from '../components/Messages';
 
 const ProfileManagementPage: React.FC = () => {
   const location = useLocation();
@@ -54,10 +55,7 @@ const ProfileManagementPage: React.FC = () => {
 
       case 'Messages':
         return (
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-2">Messages</h2>
-            <p className="text-gray-600">You have no new messages.</p>
-          </div>
+            <Messages />
         );
 
       case 'Calendar':
@@ -184,7 +182,7 @@ const ProfileManagementPage: React.FC = () => {
         </div>
 
         {/* Right Content Section */}
-        <div className="w-full md:w-3/4 p-6">{renderContent()}</div>
+        <div className="w-full md:w-3/4 py-8 mx-0">{renderContent()}</div>
       </div>
     </div>
   );
