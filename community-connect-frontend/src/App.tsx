@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Homepage from './pages/Homepage';
-import MyCalendar from './pages/MyCalendar';
+import MyCalendar from './pages/Booking';
 import ProfileManagementPage from './pages/ProfileManagementPage';
 import LoginPage from './pages/LoginPage';
 import './App.css';

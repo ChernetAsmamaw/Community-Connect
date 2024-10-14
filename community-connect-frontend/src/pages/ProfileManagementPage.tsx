@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import Header from '../components/Header';
+import MyCalendar from '../components/MyCalendar';
 
 const ProfileManagementPage: React.FC = () => {
   const location = useLocation();
@@ -63,7 +64,7 @@ const ProfileManagementPage: React.FC = () => {
         return (
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-2">Calendar</h2>
-            <p className="text-gray-600">No upcoming events or appointments.</p>
+            <MyCalendar />
           </div>
         );
 
