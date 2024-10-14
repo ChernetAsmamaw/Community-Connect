@@ -1,3 +1,4 @@
+const { isAuthenticated } = require("../middleware/authMiddleware");
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 const jwt = require("jsonwebtoken");
@@ -61,7 +62,7 @@ const sendTokenResponse = async (user, statusCode, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     })
-    .json({ success: true, token });
+    .json({ success: true, role: user.role, isAuthenticated: true });
 };
 
 /************ Logout a user ************/

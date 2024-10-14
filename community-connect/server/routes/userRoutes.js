@@ -16,4 +16,11 @@ router.delete(
   userController.deleteUser
 );
 
+/** User Services History  routes **/
+router.post(
+  "/user/booking-history",
+  isAuthenticated,
+  userController.createBookingHistory
+);
+
 module.exports = router;

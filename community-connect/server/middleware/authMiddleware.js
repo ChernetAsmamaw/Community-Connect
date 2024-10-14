@@ -15,6 +15,7 @@ exports.isAuthenticated = async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await User.findById(decoded.id);
+    req.isAuthenticated = true; // Set isAuthenticated to true
     next();
   } catch (error) {
     return next(new ErrorResponse("Not authorized to access this route", 401));
@@ -23,7 +24,7 @@ exports.isAuthenticated = async (req, res, next) => {
 
 /************ Admin user ************/
 exports.isAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 0) {
+  if (req.isAuthenticated && req.user && req.user.role === 0) {
     return next(new ErrorResponse("Access denied! Must be an admin", 403));
   }
   next();

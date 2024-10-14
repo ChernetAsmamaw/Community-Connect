@@ -35,7 +35,7 @@ module.exports.getAllServices = async (req, res, next) => {
       }
     : {};
 
-  // FIlter by service category
+  // Filter by service category ids
   let ids = [];
   const serviceCategoryType = await ServiceCategory.find({}, { _id: 1 });
   serviceCategoryType.forEach((category) => {
@@ -43,28 +43,41 @@ module.exports.getAllServices = async (req, res, next) => {
   });
 
   let cat = req.query.category;
-  let categ = cat !== "" ? cat : ids;
+  let categ = cat ? cat : ids; // Fixed category check
+
+  // Filter by location/city
+  let city = req.query.city;
+  let cityFilter = city ? city : undefined; // Fixed city check make it undefined if not provided
 
   // Enable pagination
   const pageSize = 5;
   const page = Number(req.query.pageNumber) || 1;
-  // const count = await Service.find().estimatedDocumentCount(); // This is does not accept filter
-  const count = await Service.find({
+
+  // Get the count of documents with filters applied
+  const count = await Service.countDocuments({
     ...keyword,
     serviceCategory: categ,
-  }).countDocuments();
+    ...(cityFilter && { city: cityFilter }), // Apply city filter only if provided
+  });
 
   try {
-    const services = await Service.find({ ...keyword })
+    // Fetch services with pagination and filtering
+    const services = await Service.find({
+      ...keyword,
+      serviceCategory: categ,
+      ...(cityFilter && { city: cityFilter }), // Apply city filter only if provided
+    })
+      .sort({ createdAt: -1 })
       .limit(pageSize)
       .skip(pageSize * (page - 1));
+
     res.status(200).json({
       success: true,
       services,
       page,
       pages: Math.ceil(count / pageSize),
       count,
-      ids,
+      setUniqueCity: [...new Set(services.map((service) => service.city))],
     });
   } catch (error) {
     next(error);

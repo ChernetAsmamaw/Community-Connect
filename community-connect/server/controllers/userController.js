@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { use } = require("../routes/userRoutes");
 const ErrorResponse = require("../utils/errorResponse");
 
 /************ Load all users ************/
@@ -59,5 +60,40 @@ module.exports.deleteUser = async (req, res, next) => {
     res.status(200).json({ success: true, user, message: "User deleted" });
   } catch (error) {
     return next(error);
+  }
+};
+
+/************ Create User Booking History ************/
+module.exports.createBookingHistory = async (req, res, next) => {
+  const { title, description, price, country, city, rating } = req.body;
+
+  try {
+    const userCurrent = await User.findById({ _id: req.user._id });
+    if (!userCurrent) {
+      return next(new ErrorResponse("You need to be logged in", 401));
+    } else {
+      // Create a new booking history
+      const addBookingHistory = {
+        title,
+        description,
+        price,
+        country,
+        city,
+        rating,
+        user: req.user._id, // Use req.user._id directly
+      };
+
+      // Add the booking history to the user's history array
+      userCurrent.bookingHistory.push(addBookingHistory);
+      await userCurrent.save();
+    }
+    res.status(201).json({
+      success: true,
+      userCurrent,
+      message: "Booking history added",
+    });
+    next();
+  } catch (error) {
+    next(error);
   }
 };

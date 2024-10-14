@@ -1,7 +1,74 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+/******************* BookingHistory Schema *******************/
+const bookingHistorySchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      trim: true,
+      maxLength: [100, "Title must be less than 100 characters"],
+    },
+
+    description: {
+      type: String,
+      trim: true,
+      maxLength: [500, "Description must be less than 500 characters"],
+    },
+
+    price: {
+      type: Number,
+    },
+
+    country: {
+      type: String,
+      default: "",
+    },
+
+    city: {
+      type: String,
+      default: "",
+    },
+
+    rating: {
+      type: Number,
+      default: 0,
+    },
+
+    service: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+      // required: true,
+    },
+
+    bookingDate: {
+      type: Date,
+      // required: true,
+    },
+
+    bookingTime: {
+      type: String, // "14:00"
+      // required: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
+      default: "Pending",
+    },
+
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
+/******************* User Schema *******************/
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -44,6 +111,8 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter a password"],
       minlength: [6, "Minimum password length is 6 characters"],
     },
+
+    bookingHistory: [bookingHistorySchema],
 
     role: {
       type: Number,
@@ -136,55 +205,3 @@ userSchema.methods.getSignedJwtToken = function () {
 };
 
 module.exports = mongoose.model("User", userSchema);
-
-// // Fire a function after doc saved to db: POST refers to after in this case
-// userSchema.post("save", function (doc, next) {
-//   // doc refers to the user that was saved to the db and next is a function that moves to the next middleware
-//   console.log("new user was created & saved", doc);
-//   next();
-// });
-
-// // Fire a function before doc saved to db
-// userSchema.pre("save", async function (next) {
-//   // this refers to the local instance of the user before it's saved to the db
-//   /* How to hash a password:
-//     1. Generate a salt: a random string of characters added to the password
-//     2. Hash the password with the salt using bcrypt
-//     3. Save the hashed password to the db
-//   */
-//   const salt = await bcrypt.genSalt();
-//   this.password = await bcrypt.hash(this.password, salt);
-
-//   // This happens before the user is saved to the db so when we move to the
-//   // next middleware, the user will be saved with the hashed password
-//   next();
-// });
-
-// // Static method to login user
-// userSchema.statics.loginWithEmail = async function (email, password) {
-//   const user = await this.findOne({ email });
-//   if (user) {
-//     const auth = await bcrypt.compare(password, user.password);
-//     if (auth) {
-//       return user;
-//     }
-//     throw Error("incorrect password");
-//   }
-//   throw Error("incorrect email");
-// };
-
-// userSchema.statics.loginWithUsername = async function (username, password) {
-//   const user = await this.findOne({ username });
-//   if (user) {
-//     const auth = await bcrypt.compare(password, user.password);
-//     if (auth) {
-//       return user;
-//     }
-//     throw Error("incorrect password");
-//   }
-//   throw Error("incorrect username");
-// };
-
-// const User = mongoose.model("user", userSchema);
-
-// module.exports = User;
