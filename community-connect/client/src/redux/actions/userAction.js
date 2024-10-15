@@ -10,6 +10,8 @@ import {
   USER_SIGNIN_FAIL,
   USER_SIGNIN_REQUEST,
   USER_SIGNIN_SUCCESS,
+  USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL,
+  SERVICE_POST_REQUEST, SERVICE_POST_SUCCESS, SERVICE_POST_FAIL
 } from "../constants/userConstant";
 
 /************ Sign in action ************/
@@ -111,6 +113,60 @@ export const userProfileAction = () => async (dispatch) => {
     dispatch({
       type: USER_LOAD_FAIL,
       payload: error.response.data.error,
+    });
+  }
+};
+
+/************ Update user profile action ************/
+export const updateUserAction = (userData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_UPDATE_REQUEST });
+
+    // Get the user info from the state
+    const { userLogin: { userInfo } } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`, // Use token for authentication
+      },
+    };
+
+    // Make the API call to update user
+    const { data } = await axios.put('/api/users/profile', userData, config);
+
+    dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+    });
+  }
+};
+
+/************ Post Service action ************/
+export const postServiceAction = (serviceData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: SERVICE_POST_REQUEST });
+
+    // Get the user info from the state
+    const { userLogin: { userInfo } } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`, // Use token for authentication
+      },
+    };
+
+    // Make the API call to post the service
+    const { data } = await axios.post('/api/services', serviceData, config);
+
+    dispatch({ type: SERVICE_POST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: SERVICE_POST_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message,
     });
   }
 };

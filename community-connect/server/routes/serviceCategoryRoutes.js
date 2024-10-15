@@ -7,7 +7,7 @@ const router = Router();
 router.post(
   "/category/create",
   isAuthenticated,
-  isAdmin,
+  // isAdmin,
   serviceCategoryController.createServiceCategory
 );
 router.get("/categories", serviceCategoryController.getAllServiceCategories);

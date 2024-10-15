@@ -1,13 +1,13 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const PageNotFound = () => {
   return (
     <>
-      <Navbar />
+      <Header />
 
       <Container>
         <Box

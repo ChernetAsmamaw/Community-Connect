@@ -9,17 +9,19 @@ import { IconButton, useTheme } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
+import { CiStar } from "react-icons/ci";
 
 const ServiceCard = ({
   id,
   title,
   description,
   city,
-  serviceCategory,
+  serviceCategoryName,
   rating,
   user,
 }) => {
-  const { palette } = useTheme();
+  const theme = useTheme();
+
   return (
     <Card
       sx={{
@@ -27,10 +29,9 @@ const ServiceCard = ({
         p: 2,
         borderRadius: 2,
         boxShadow: 1,
-        backgroundColor: "#fff",
-        // Add some hover effect
+        backgroundColor: "#FFFFFF", 
         "&:hover": {
-          boxShadow: 2,
+          boxShadow: 4,
         },
       }}
     >
@@ -38,7 +39,7 @@ const ServiceCard = ({
         <Typography
           sx={{
             fontSize: 15,
-            color: palette.secondary.main,
+            color: "#cccccc", 
             fontWeight: 500,
             display: "flex",
             alignItems: "center",
@@ -53,7 +54,7 @@ const ServiceCard = ({
         <Typography
           component="h4"
           sx={{
-            color: palette.secondary.main,
+            color: "#55883B", // Dark green
             fontWeight: 600,
             mb: 1,
           }}
@@ -61,49 +62,49 @@ const ServiceCard = ({
           {title}
         </Typography>
         <Typography sx={{ mb: 1.5, color: "text.secondary" }}>
-          {serviceCategory}
+          {serviceCategoryName}
         </Typography>
-        <Typography component="p" sx={{ color: palette.secondary.dark, mb: 2 }}>
+        <Typography component="p" sx={{ color: "black", mb: 2 }}> 
           Description: {description.split(" ").slice(0, 15).join(" ") + "..."}
         </Typography>
 
         <Typography
           component="p"
           sx={{
-            color: palette.secondary.main,
+            color: "#55883B", 
             fontWeight: 600,
             mb: 2,
           }}
+          className="flex"
         >
-          Rating : {rating ? rating : "No rating yet"}
+          <CiStar className="text-xl" /> {rating ? rating : "No rating yet"}
         </Typography>
-
-        {/* 
-    <Typography
-      component="p"
-      sx={{
-        color: palette.secondary.main,
-        fontWeight: 600,
-      }}
-    >
-      Posted by: {`${user.firstName} ${user.lastName}`}
-    </Typography>
-    */}
       </CardContent>
-      <CardActions sx={{ justifyContent: "flex-end" }}>
+      <CardActions sx={{ justifyContent: "space-between" }}>
         <Button
           disableElevation
           variant="contained"
           size="small"
           startIcon={<AddIcon />}
-          sx={{ borderRadius: 10 }}
+          sx={{ borderRadius: 10, backgroundColor: "#BCE27F", "&:hover": { backgroundColor: "#A8D67B" } }}
         >
           <Link
-            style={{ textDecoration: "none", color: "white", boxShadow: 0 }}
+            style={{ textDecoration: "none", color: "black", boxShadow: 0 }}
             to={`/service/${id}`}
           >
             More Details
           </Link>
+        </Button>
+        {/* New Book Service Button */}
+        <Button
+          disableElevation
+          variant="contained"
+          size="small"
+          sx={{ borderRadius: 10, backgroundColor: "#55883B", "&:hover": { backgroundColor: "#4A7D31" } }} // Dark green
+          component={Link}
+          to={`/bookings/${id}`} // Assuming you have a bookings page
+        >
+          Book Service
         </Button>
       </CardActions>
     </Card>

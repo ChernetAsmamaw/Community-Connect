@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import heroImage from '../assets/images/ccbg.jpg';
 
-const HeroSection: React.FC = () => {
+const HeroSection = () => {
   return (
-    <section className="bg-primary text-white p-10">
+    <section className="bg-primary text-white font-sans p-10">
       <div className="container mx-auto h-auto grid grid-cols-1 md:grid-cols-2 gap-4">
         
         {/* Text Section */}
@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
 
           {/* Call to Action */}
           <motion.a
-            href="#businesses"
+            href="/user/services"
             className="bg-accent text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary transition-colors duration-300"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}

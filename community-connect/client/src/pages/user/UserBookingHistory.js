@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ServiceCard from "../../components/ServiceCard";
 import { userProfileAction } from "../../redux/actions/userAction";
+import Header from "../../components/Header";
+import MyCalendar from "../../components/MyCalendar";
 
 const UserBookingHistory = () => {
   const { user } = useSelector((state) => state.userProfile);
@@ -14,6 +16,8 @@ const UserBookingHistory = () => {
 
   return (
     <>
+    <Header />
+    <MyCalendar />
       <Box>
         <Typography variant="h4" sx={{ color: "#fafafa" }}>
           {" "}

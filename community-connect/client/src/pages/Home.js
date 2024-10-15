@@ -52,7 +52,7 @@ const Home = () => {
 
   return (
     <>
-      <Box sx={{ backgroundColor: "", minHeight: "100vh" }}>
+      <Box sx={{ backgroundColor: "", minHeight: "100vh" }} className="bg-background">
       
         <Header />
         <HeroSection />
@@ -68,7 +68,8 @@ const Home = () => {
                 <Box sx={{ pb: 2 }}>
                   <Typography
                     component="h4"
-                    sx={{ color: palette.secondary.main, fontWeight: 600 }}
+                    sx={{ fontWeight: 600 }}
+                    className="text-accent"
                   >
                     Filter Services by Category
                   </Typography>
@@ -85,7 +86,7 @@ const Home = () => {
                 <Box sx={{ pb: 2 }}>
                   <Typography
                     component="h4"
-                    sx={{ color: palette.secondary.main, fontWeight: 600 }}
+                    sx={{ fontWeight: 600 }}  className="text-accent"
                   >
                     Filter Services by Location
                   </Typography>
@@ -122,7 +123,7 @@ const Home = () => {
                 >
                   <Typography
                     component="h4"
-                    sx={{ color: palette.secondary.main, fontWeight: 600 }}
+                    sx={{ fontWeight: 600 }}  className="text-accent"
                   >
                     No services found
                   </Typography>
@@ -152,8 +153,8 @@ const Home = () => {
                   page={page}
                   count={pages === 0 ? 1 : pages}
                   onChange={(event, value) => setPage(value)}
-                  color="primary"
                   size="large"
+                  className="text-accent"
                 />
               </Stack>
             </Box>

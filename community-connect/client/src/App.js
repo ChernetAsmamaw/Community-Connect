@@ -14,6 +14,7 @@ import Layout from "./pages/global/Layout";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import UserBookingHistory from "./pages/user/UserBookingHistory";
 import SignUp from "./pages/Signup";
+import ProfileManagementPage from "./pages/user/UserProfile";
 
 // HOC
 const DashboardHOC = Layout(Dashboard);
@@ -37,6 +38,14 @@ const App = () => {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/logout" element={<Login />} />
               <Route
+                path="/user/profile"
+                element={
+                  <UserRoute>
+                    <ProfileManagementPage />
+                  </UserRoute>
+                }
+              />
+              <Route
                 path="/user/dashboard"
                 element={
                   <UserRoute>
@@ -53,7 +62,7 @@ const App = () => {
                 }
               />
               <Route
-                path="/user/services"
+                path="/user/booking"
                 element={<UserBookingHistory />}
               />
             </Routes>
