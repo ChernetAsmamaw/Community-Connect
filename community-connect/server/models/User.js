@@ -71,19 +71,19 @@ const bookingHistorySchema = new mongoose.Schema(
 /******************* User Schema *******************/
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: [true, "Please enter a first name"],
-      trim: true,
-      maxLength: [28, "First name must be less than 20 characters"],
-    },
+    // firstName: {
+    //   type: String,
+    //   required: [true, "Please enter a first name"],
+    //   trim: true,
+    //   maxLength: [28, "First name must be less than 20 characters"],
+    // },
 
-    lastName: {
-      type: String,
-      required: [true, "Please enter a last name"],
-      trim: true,
-      maxLength: [32, "Last name must be less than 20 characters"],
-    },
+    // lastName: {
+    //   type: String,
+    //   required: [true, "Please enter a last name"],
+    //   trim: true,
+    //   maxLength: [32, "Last name must be less than 20 characters"],
+    // },
 
     username: {
       type: String,

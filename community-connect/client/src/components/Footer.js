@@ -8,14 +8,14 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        bgcolor: palette.secondary.midNightBlue,
+       
         minHeight: "10vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
-        color: palette.secondary.lightBlue,
       }}
+      className =" bg-accent text-white"
     >
       <p>&copy; 2021 Community Connect | All Rights Reserved</p>
     </Box>

@@ -125,6 +125,13 @@ const SidebarAdm = () => {
               ) : (
                 <>
                   <MenuItem
+                    component={<Link to="/user/home" />}
+                    icon={<DashboardIcon />}
+                  >
+                    {" "}
+                    Home{" "}
+                  </MenuItem>
+                  <MenuItem
                     component={<Link to="/user/dashboard" />}
                     icon={<DashboardIcon />}
                   >

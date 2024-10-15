@@ -30,7 +30,7 @@ const Port = process.env.PORT || 5000;
 /********** Connect to MongoDB **********/
 mongoose
   .connect(dbURI, {
-    // options for the connect method to parse the URI
+    useNewUrlParser: true, useUnifiedTopology: true
   })
   .then(() => {
     server.listen(Port, () => {

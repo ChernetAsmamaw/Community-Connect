@@ -13,6 +13,7 @@ import UserRoute from "./components/UserRoute";
 import Layout from "./pages/global/Layout";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import UserBookingHistory from "./pages/user/UserBookingHistory";
+import SignUp from "./pages/Signup";
 
 // HOC
 const DashboardHOC = Layout(Dashboard);
@@ -28,22 +29,32 @@ const App = () => {
         <ProSidebarProvider>
           <Router>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />
               <Route path="/search/:city" element={<Home />} />
               <Route path="/search/:keyword" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/logout" element={<Login />} />
               <Route
                 path="/user/dashboard"
                 element={
                   <UserRoute>
-                    <DashboardHOC />
+                    <Dashboard />
+                  </UserRoute>
+                }
+              />
+              <Route
+                path="/user/home"
+                element={
+                  <UserRoute>
+                    <Home />
                   </UserRoute>
                 }
               />
               <Route
                 path="/user/services"
-                element={<UserBookingHistoryHOC />}
+                element={<UserBookingHistory />}
               />
             </Routes>
           </Router>

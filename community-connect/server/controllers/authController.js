@@ -6,18 +6,28 @@ require("dotenv").config();
 
 /************ Register a new user ************/
 module.exports.signup = async (req, res, next) => {
-  const { email } = req.body;
-
-  // Check if the user already exists
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    return next(new ErrorResponse("This email is already registered", 400));
-  }
   try {
-    const user = await User.create(req.body);
-    res.status(201).json({ success: true, user });
+    const { username, email, password } = req.body;
+
+    // Validate required fields
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    // Create new user
+    const newUser = new User({ username, email, password });
+    await newUser.save();
+
+    res.status(201).json({ message: "User created successfully!" });
   } catch (error) {
-    next(error);
+    console.error("Signup error: ", error); // Log the error to the console
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 };
 

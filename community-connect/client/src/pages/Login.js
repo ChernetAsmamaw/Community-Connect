@@ -1,118 +1,104 @@
-import { Avatar, Box } from "@mui/material";
-import React, { useEffect } from "react";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import LockClockOutlined from "@mui/icons-material/LockClockOutlined";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { userSignInAction } from "../redux/actions/userAction";
-import { useNavigate } from "react-router-dom";
-
-const validationSchema = yup.object({
-  email: yup
-    .string("Enter your email")
-    .email("Enter a valid email")
-    .required("Email is required"),
-  password: yup
-    .string("Enter your password")
-    .min(6, "Password should be of minimum 6 characters length")
-    .required("Password is required"),
-});
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { userSignInAction } from '../redux/actions/userAction';
+import heroImage from '../assets/images/ccbg.jpg';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 
 const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   const { isAuthenticated } = useSelector((state) => state.signIn);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/user/dashboard");
+      navigate("/user/home");
     }
   }, [isAuthenticated]);
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values, actions) => {
-      //  alert(JSON.stringify(values, null, 2));
-      dispatch(userSignInAction(values));
-      actions.resetForm();
-    },
-  });
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      setError('Please fill in both fields.');
+      return;
+    }
+
+    setError('');
+    dispatch(userSignInAction({ email, password }));
+  };
 
   return (
     <>
-      <Navbar />
-      <Box
-        sx={{
-          height: "82vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          onSubmit={formik.handleSubmit}
-          component="form"
-          className="form_style border-style"
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main", mb: 3 }}>
-              <LockClockOutlined />
-            </Avatar>
-            <TextField
-              sx={{ mb: 3 }}
-              fullWidth
-              id="email"
-              label="E-mail"
-              name="email"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="E-mail"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-              sx={{ mb: 3 }}
-              fullWidth
-              id="password"
-              name="password"
-              label="Password"
-              type="password"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
+      <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-primary p-4">
+        {/* Image Section */}
+        <div className="w-full lg:w-1/2 flex justify-center mb-6 lg:mb-0">
+          <img
+            src={heroImage}
+            alt="Community Connect"
+            className="w-28 md:w-28 lg:w-full object-cover max-h-[400px] rounded-md lg:rounded-none lg:max-h-screen"
+          />
+        </div>
 
-            <Button fullWidth variant="contained" type="submit">
-              Log In
-            </Button>
-          </Box>
-        </Box>
-      </Box>
+        {/* Login Form Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg lg:w-1/2"
+        >
+          <h1 className="text-3xl font-bold text-center text-[#55883B] mb-6">Welcome To CConnect</h1>
+
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C1E899]"
+                placeholder="Enter your email"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C1E899]"
+                placeholder="Enter your password"
+              />
+            </div>
+
+            {/* Error Message */}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
+            <button
+              type="submit"
+              className="w-full bg-[#9A6735] text-white py-3 rounded-lg hover:bg-[#55883B] transition-colors"
+            >
+              Login
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm">
+            Don’t have an account?{' '}
+            <span
+              onClick={() => navigate('/signup')}
+              className="text-[#55883B] cursor-pointer hover:underline"
+            >
+              Register here
+            </span>
+          </p>
+        </motion.div>
+      </div>
       <Footer />
     </>
   );

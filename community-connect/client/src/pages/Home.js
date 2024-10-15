@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
+import HeroSection from "../components/HeroSection.js";
 import {
   Box,
   Stack,
@@ -51,10 +52,10 @@ const Home = () => {
 
   return (
     <>
-      <Box sx={{ backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
-        <Navbar />
+      <Box sx={{ backgroundColor: "", minHeight: "100vh" }}>
+      
         <Header />
-
+        <HeroSection />
         <Container>
           <Stack
             direction={{ xs: "column", sm: "row" }}
