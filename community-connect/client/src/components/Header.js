@@ -85,7 +85,7 @@ const Header = () => {
           {/* Notification Bell Icon */}
           <button
             onClick={goToNotifications}
-            className="text-xl text-accent hover:scale-110 relative"
+            className="text-l text-accent hover:scale-110 relative"
           >
             <FaBell />
           </button>
