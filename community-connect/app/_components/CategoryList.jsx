@@ -3,19 +3,20 @@ import React from "react";
 
 function CategoryList({ categoryList }) {
   return (
-    <div className="mx-4 my-4 md:mx-20 lg:mx-30 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 py-12">
+    <div className="mx-4 my-4 md:mx-20 lg:mx-30 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-12">
       {categoryList.length > 0
         ? categoryList.map((category, index) => (
             <div
               key={index}
               style={{ backgroundColor: category.bgColor.hex }}
-              className={`flex flex-col items-center justify-center rounded-lg px-6 py-4 cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out`}
+              className={`flex flex-col items-center justify-center rounded-lg px-8 py-6 cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out`}
             >
               <Image
                 src={category.icon.url}
                 alt={category.name}
                 width={50}
                 height={50}
+                className="rounded-full pt-2"
               />
               <h2 className="text-primary text-center pt-4">{category.name}</h2>
             </div>

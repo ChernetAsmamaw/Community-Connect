@@ -6,8 +6,8 @@ function Header() {
   return (
     <div className="bg-white shadow-sm flex justify-between items-center p-4">
       <div className="flex items-center gap-8 justify-between">
-        <img src="/logo.svg" alt="Logo" />
-        <h1 className="text-primary text-2xl font-bold ">CConnect</h1>
+        <img src="/logo.svg" alt="Logo" style={{ marginRight: "-25px" }} />
+        <h1 className="text-primary text-2xl font-bold ">Connect</h1>
         <div className="md:flex space-x-4 items-center gap-6 hidden">
           <h2 className="hover:text-primary cursor-pointer">Home</h2>
           <h2 className="hover:text-primary cursor-pointer">Services</h2>

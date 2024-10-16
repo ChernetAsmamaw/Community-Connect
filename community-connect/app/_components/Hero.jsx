@@ -64,10 +64,10 @@ function Hero() {
         </motion.div>
       </div>
       {/* Search Box ShadContainer */}
-      <div className="container mx-auto mt-8 flex justify-center items-center gap-4">
+      <div className="container mx-auto mt-10 flex justify-center items-center gap-4">
         <Input
           placeholder="Search for businesses, artisans, services"
-          className="rounded-full md:w-[350px] shadow-md border-cyan-950 mt-1"
+          className="rounded-full md:w-[400px] shadow-md border-cyan-950 mt-1"
         />
         <Button className="bg-primary text-white rounded-full h-[45px] w-[45px]">
           <Search />
