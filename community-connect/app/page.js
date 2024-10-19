@@ -5,6 +5,8 @@ import Hero from "./_components/Hero";
 import CategoryList from "./_components/CategoryList";
 import GlobalApi from "./_services/GlobalApi";
 import BusinessList from "./_components/BusinessList";
+// import RegisterPage from "./Register";
+// import LoginPage from "./Login";
 
 export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
@@ -39,6 +41,8 @@ export default function Home() {
       <Hero />
       <CategoryList categoryList={categoryList} />
       <BusinessList businessList={businessList} />
+      {/* <LoginPage />
+      <RegisterPage /> */}
     </div>
   );
 }

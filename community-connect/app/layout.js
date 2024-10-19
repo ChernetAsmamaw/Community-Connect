@@ -1,11 +1,13 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./_components/Header";
+import NextAuthSessionProvider from "./provider";
+import { Toaster } from "sonner";
 
+// Define the Montserrat font with both woff and woff2 formats for better compatibility
 const montserrat = localFont({
-  src: "./fonts/Montserrat-Regular.woff",
+  src: [{ path: "./fonts/Montserrat-Regular.woff", weight: "400" }],
   variable: "--font-montserrat",
-  weight: "100 900",
 });
 
 export const metadata = {
@@ -16,11 +18,22 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.png" />
+        <meta name="description" content={metadata.description} />
+        <title>{metadata.title}</title>
+        <style>{montserrat.styles}</style>
+      </head>
       <body className={`${montserrat.variable} antialiased`}>
-        <div className="mx-6 md:mx-16">
-          <Header />
-          {children}
-        </div>
+        <NextAuthSessionProvider>
+          <div className="mx-6 md:mx-16 lg:mx-0">
+            <Header />
+            <Toaster />
+            {children}
+          </div>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );
