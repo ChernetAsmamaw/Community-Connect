@@ -44,7 +44,7 @@ function MyBooking() {
   };
 
   return (
-    <div className="my-10 md:mx-32 mx-5">
+    <div className="my-10 md:mx-32 mx-5 min-h-screen">
       <h1 className="text-2xl font-bold m-1 my-5">My Bookings</h1>
       <Tabs defaultValue="booked" className="w-full">
         <TabsList className="w-full justify-start">

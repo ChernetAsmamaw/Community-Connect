@@ -30,9 +30,9 @@ function BusinessSudgestionList({ business }) {
   };
 
   return (
-    <div className="md:pl-5">
+    <div className="md:pl-12">
       <BookingSection business={business}>
-        <Button className="flex items-center gap-2 bg-primary text-white w-full justify-end">
+        <Button className="flex items-center gap-2 bg-primary text-white w-full md:mx-8 lg:mx-24 justify-center">
           <PenBox /> Book Now
         </Button>
       </BookingSection>

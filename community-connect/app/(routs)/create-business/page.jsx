@@ -111,9 +111,9 @@ export function CreateBusiness() {
       });
 
       console.log("API Response:", result);
+      const imageIds = result.createBusinessList.images.map((img) => img.id); // Get the image IDs
 
-      // Publish the images after creating the business
-      await publishImages(result.id, imageUrls);
+      await GlobalApi.publishImages(result.id, imageIds);
 
       toast.success("Business created and images published successfully");
       form.reset();
@@ -123,11 +123,6 @@ export function CreateBusiness() {
         "Error creating business: " + (error.message || "Unknown error")
       );
     }
-  };
-
-  // Function to publish images
-  const publishImages = async (businessId, imageUrls) => {
-    GlobalApi.publishImages(businessId, imageUrls);
   };
 
   // URL validation function
@@ -271,7 +266,7 @@ export function CreateBusiness() {
                   control={form.control}
                   render={({ field }) => (
                     <Input
-                      placeholder="Image URLs (comma separated)"
+                      placeholder="Insert image URLs separated by commas (,)"
                       onChange={(e) => {
                         // Split the input string by commas, trim whitespace, and filter out empty entries
                         const urls = e.target.value

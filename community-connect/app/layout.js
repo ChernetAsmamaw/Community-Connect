@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./_components/Header";
 import NextAuthSessionProvider from "./provider";
 import { Toaster } from "sonner";
+import Footer from "./_components/Footer";
 
 // Define the Montserrat font with both woff and woff2 formats for better compatibility
 const montserrat = localFont({
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
             <Header />
             <Toaster />
             {children}
+            <Footer />
           </div>
         </NextAuthSessionProvider>
       </body>

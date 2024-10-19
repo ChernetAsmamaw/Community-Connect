@@ -1,80 +1,113 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import io from "socket.io-client";
+
+const socket = io(); // Connect to the Socket.IO server
 
 function MyMessages() {
+  const { data: session } = useSession();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [receiverEmail, setReceiverEmail] = useState("");
+
+  useEffect(() => {
+    socket.on("message", (newMessage) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+
+    return () => {
+      socket.off("message");
+    };
+  }, []);
 
   const handleSend = () => {
-    if (input.trim()) {
+    if (input.trim() && receiverEmail.trim()) {
       const newMessage = {
         text: input,
         timestamp: new Date().toLocaleTimeString(),
-        user: "You", // This can be dynamic based on the logged-in user
+        user: session.user.email, // Use the email from the session
+        receiverEmail,
       };
-      setMessages([...messages, newMessage]);
+      socket.emit("message", newMessage); // Send message to the server
       setInput("");
     }
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 md:mx-16 md:my-10">
-      <div className="flex-1 overflow-y-auto p-4 bg-white shadow-lg rounded-lg">
-        {messages.length === 0 ? (
-          <div className="text-center text-gray-400">No messages yet</div>
-        ) : (
-          messages.map((msg, index) => (
+    <div className="flex h-screen bg-gray-100 md:my-8 md:mx-16">
+      {/* Left Column: Email Input and Past Conversations */}
+      <div className="w-1/4 p-4">
+        <input
+          type="email"
+          value={receiverEmail}
+          onChange={(e) => setReceiverEmail(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded-md"
+          placeholder="Receiver's Email"
+        />
+        <div className="mt-4">
+          {messages.length === 0 ? (
+            <div className="text-center text-gray-400">
+              No conversations yet
+            </div>
+          ) : (
+            messages.map((msg, index) => (
+              <div key={index} className="my-2">
+                <strong>
+                  {msg.user === session.user.email ? "You" : msg.user}
+                </strong>
+                : {msg.text}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Right Column: Chat Area */}
+      <div className="w-3/4 flex flex-col p-4 bg-white shadow-lg rounded-lg">
+        <div className="flex-1 overflow-y-auto">
+          {messages.map((msg, index) => (
             <div
               key={index}
               className={`flex items-start my-2 ${
-                msg.user === "You" ? "justify-end" : "justify-start"
+                msg.user === session.user.email
+                  ? "justify-end"
+                  : "justify-start"
               }`}
             >
-              {msg.user !== "You" && (
+              {msg.user !== session.user.email && (
                 <img
-                  src="https://via.placeholder.com/40" // Placeholder for user avatar
+                  src="https://via.placeholder.com/40"
                   alt="User  Avatar"
                   className="w-10 h-10 rounded-full mr-2"
                 />
               )}
               <div
                 className={`p-3 rounded-lg shadow-md ${
-                  msg.user === "You"
+                  msg.user === session.user.email
                     ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-800"
+                    : "bg-gray-200 text -gray-600"
                 }`}
               >
-                <p>{msg.text}</p>
-                <span className="text-xs text-gray-500">{msg.timestamp}</span>
+                {msg.text}
               </div>
-              {msg.user === "You" && (
-                <img
-                  src="https://via.placeholder.com/40" // Placeholder for user avatar
-                  alt="User  Avatar"
-                  className="w-10 h-10 rounded-full ml-2"
-                />
-              )}
             </div>
-          ))
-        )}
-      </div>
-      <div className="flex mt-4">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Type your message..."
-        />
-        <Button
-          onClick={handleSend}
-          className="ml-2 bg-primary hover:bg--green-600 p-6
-           text-white rounded-md transition duration-200"
-        >
-          Send
-        </Button>
+          ))}
+        </div>
+
+        {/* Input Field and Send Button */}
+        <div className="flex items-center p-2">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+            placeholder="Type a message..."
+          />
+          <Button onClick={handleSend}>Send</Button>
+        </div>
       </div>
     </div>
   );

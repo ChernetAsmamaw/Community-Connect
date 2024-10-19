@@ -172,9 +172,7 @@ const getBookingHistory = async (userEmail) => {
     query FetchUserBookingHistory {
       bookings(where: { userEmail: "` +
     userEmail +
-    `" }
-    orderBy: publishedAt_DESC
-    ) {
+    `" }, orderBy: publishedAt_DESC) {
         businessList {
           address
           contactPerson
@@ -188,9 +186,6 @@ const getBookingHistory = async (userEmail) => {
         date
         time
         bookingStatus
-      }
-      publishManyBusinessLists(to: PUBLISHED) {
-    count
       }
     }
   `;
@@ -217,10 +212,13 @@ const createBusiness = async (data) => {
           contactPerson: "${contactPerson}"
           email: "${email}"
           name: "${name}"
-          images: { create: { uploadUrl: "${images.create[0].url}" } }
+          images: { create: { uploadUrl: [${imagesInput}] } }
         }
       ) {
         id
+        images {
+          id
+        }
       }
       publishManyBusinessLists(to: PUBLISHED) {
         count
@@ -232,19 +230,13 @@ const createBusiness = async (data) => {
   return result;
 };
 
-const publishImages = async (businessId, imageUrls) => {
-  // Assuming imageUrls contains objects with a property that can be used to identify the images
-  const imageIds = imageUrls.map((img) => img.id); // Ensure img.id corresponds to the actual ID property
-
-  // Construct the mutation query
+/************** Publish Images **************/
+const publishImages = async (businessId, imageIds) => {
   const mutationQuery = gql`
     mutation PublishImages {
       publishManyAssets(
         to: PUBLISHED
-        locales: en
-        where: { imagesBusinessList_every: { id_in: [${imageIds
-          .map((id) => `"${id}"`)
-          .join(", ")}] } }
+        where: { id_in: [${imageIds.map((id) => `"${id}"`).join(", ")}] }
       ) {
         count
       }
