@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Clock, Mail, MapPin, Share, User } from "lucide-react";
+import { Clock, Mail, MapPin, User } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -30,9 +29,6 @@ function BusinessInfo({ business }) {
             </h2>
           </div>
           <div className="flex flex-col gap-5 mt-5 items-end">
-            <Button>
-              <Share />
-            </Button>
             <h2 className="flex gap-2 text-lg text-primary font-bold">
               <User />
               {business?.contactPerson}
