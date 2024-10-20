@@ -248,6 +248,99 @@ const publishImages = async (businessId, imageIds) => {
   console.log("Published Images Response:", result);
 };
 
+const sendMessage = async (senderEmail, receiverEmail, text) => {
+  const mutation = gql`
+    mutation CreateMessage {
+      createMessage(
+        data: {
+          createdAt: "${new Date().toISOString()}",
+          senderEmail: "${senderEmail}",
+          receiverEmail: "${receiverEmail}",
+          text: "${text}"
+        }
+      ) {
+        id
+        createdAt
+        senderEmail
+        receiverEmail
+        text
+      }
+    }
+  `;
+
+  const result = await request(MASTER_URL, mutation);
+  return result.createMessage;
+};
+
+// Function to get messages between two users
+const getMessagesByEmail = async (senderEmail, receiverEmail) => {
+  const query = gql`
+    query FetchMessages {
+      messages(
+        where: {
+          OR: [
+            { senderEmail: "${senderEmail}", receiverEmail: "${receiverEmail}" },
+            { senderEmail: "${receiverEmail}", receiverEmail: "${senderEmail}" }
+          ]
+        },
+        orderBy: createdAt_DESC
+      ) {
+        id
+        createdAt
+        senderEmail
+        receiverEmail
+        text
+      }
+    }
+  `;
+
+  const result = await request(MASTER_URL, query);
+  return result.messages;
+};
+
+export const getReviews = async (businessId) => {
+  const query = gql`
+    query GetReviews {
+      reviews(orderBy: publishedAt_DESC, where: { businessList: { id: "${businessId}" } }) {
+        rating
+        review
+        userFullName
+        id
+      }
+    }
+  `;
+  const result = await request(MASTER_URL, query);
+  return result.reviews;
+};
+
+export const postReview = async (businessId, rating, review, userFullName) => {
+  const mutation = gql`
+    mutation CreateReview {
+      createReview(
+        data: {
+          businessList: { connect: { id: "${businessId}" } }
+          rating: ${rating}
+          review: "${review}"
+          userFullName: "${userFullName}"
+        }
+      ) {
+        id
+        rating
+        review
+        userFullName
+        createdBy {
+          id
+        }
+      }
+      publishManyReviews(to: PUBLISHED) {
+        count
+      }
+    }
+  `;
+  const result = await request(MASTER_URL, mutation);
+  return result.createReview;
+};
+
 export default {
   getCategory,
   getAllBusinessList,
@@ -258,4 +351,8 @@ export default {
   getBookingHistory,
   createBusiness,
   publishImages,
+  sendMessage,
+  getMessagesByEmail,
+  getReviews,
+  postReview,
 };

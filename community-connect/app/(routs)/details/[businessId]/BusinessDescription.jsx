@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import BusinessReviews from "./BusinessReviews";
 
 function BusinessDescription({ business }) {
   return (
@@ -24,6 +25,7 @@ function BusinessDescription({ business }) {
             ))}
           </div>
         </div>
+        <BusinessReviews business={business} />
       </div>
     )
   );

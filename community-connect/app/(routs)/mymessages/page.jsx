@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import io from "socket.io-client";
+import { toast } from "sonner";
 
-const socket = io(); // Connect to the Socket.IO server
+let socket; // Declare the socket variable outside the component
 
 function MyMessages() {
   const { data: session } = useSession();
@@ -14,12 +15,18 @@ function MyMessages() {
   const [receiverEmail, setReceiverEmail] = useState("");
 
   useEffect(() => {
+    // Initialize the socket connection
+    socket = io();
+
+    // Listen for incoming messages
     socket.on("message", (newMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
+    // Clean up the socket connection on component unmount
     return () => {
       socket.off("message");
+      socket.disconnect();
     };
   }, []);
 
@@ -28,16 +35,23 @@ function MyMessages() {
       const newMessage = {
         text: input,
         timestamp: new Date().toLocaleTimeString(),
-        user: session.user.email, // Use the email from the session
+        user: session?.user?.email, // Ensure session exists
         receiverEmail,
       };
-      socket.emit("message", newMessage); // Send message to the server
-      setInput("");
+
+      // Emit the message to the server
+      socket.emit("message", newMessage);
+      // Optimistically add the message to the UI
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setInput(""); // Clear the input field
+    } else {
+      // Optionally, you can add an alert or some feedback if input is empty
+      toast.error("Please enter a message and a receiver's email.");
     }
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 md:my-8 md:mx-16">
+    <div className="flex h-screen bg-gray-100 md:my-8 md:mx-16 border border-gray-300 rounded-lg">
       {/* Left Column: Email Input and Past Conversations */}
       <div className="w-1/4 p-4">
         <input
@@ -56,7 +70,7 @@ function MyMessages() {
             messages.map((msg, index) => (
               <div key={index} className="my-2">
                 <strong>
-                  {msg.user === session.user.email ? "You" : msg.user}
+                  {msg.user === session?.user?.email ? "You" : msg.user}
                 </strong>
                 : {msg.text}
               </div>
@@ -72,26 +86,29 @@ function MyMessages() {
             <div
               key={index}
               className={`flex items-start my-2 ${
-                msg.user === session.user.email
+                msg.user === session?.user?.email
                   ? "justify-end"
                   : "justify-start"
               }`}
             >
-              {msg.user !== session.user.email && (
+              {msg.user !== session?.user?.email && (
                 <img
-                  src="https://via.placeholder.com/40"
+                  src="https://img.freepik.com/free-vector/c-letter-initial-colorful-gradient-design_474888-2655.jpg"
                   alt="User  Avatar"
                   className="w-10 h-10 rounded-full mr-2"
                 />
               )}
               <div
                 className={`p-3 rounded-lg shadow-md ${
-                  msg.user === session.user.email
+                  msg.user === session?.user?.email
                     ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text -gray-600"
+                    : "bg-gray-200 text-gray-600"
                 }`}
               >
-                {msg.text}
+                <div>{msg.text}</div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {msg.timestamp}
+                </div>
               </div>
             </div>
           ))}
@@ -103,7 +120,7 @@ function MyMessages() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border border-gray-300 rounded-md mr-5"
             placeholder="Type a message..."
           />
           <Button onClick={handleSend}>Send</Button>
