@@ -10,8 +10,8 @@ export const authOptions = {
       wellKnown: `https://api.descope.com/P2nWlxKYnuTFxOxH9FSopzkxhYil/.well-known/openid-configuration`,
       authorization: { params: { scope: "openid email profile" } },
       idToken: true,
-      clientId: process.env.NEXT_PUBLIC_MATER_URL_KEY,
-      clientSecret: process.env.NEXTAUTH_SECRET,
+      clientId: process.env.DESCOPE_CLIENT_ID,
+      clientSecret: process.env.DESCOPE_CLIENT_SECRET,
       checks: ["pkce", "state"],
       profile(profile) {
         return {
