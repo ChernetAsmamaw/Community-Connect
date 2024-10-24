@@ -1,5 +1,4 @@
 import NextAuth from "next-auth/next";
-require('dotenv').config();
 
 export const authOptions = {
   providers: [
@@ -11,7 +10,7 @@ export const authOptions = {
       authorization: { params: { scope: "openid email profile" } },
       idToken: true,
       clientId: "P2nWlxKYnuTFxOxH9FSopzkxhYil",
-      clientSecret: process.env.DESCOPE_CLIENT_SECRET,
+      clientSecret: <DESCOPE-CLIENT-SECRET>,
       checks: ["pkce", "state"],
       profile(profile) {
         return {
