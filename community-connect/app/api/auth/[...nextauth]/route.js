@@ -1,4 +1,5 @@
 import NextAuth from "next-auth/next";
+require('dotenv').config();
 
 export const authOptions = {
   providers: [
@@ -9,8 +10,8 @@ export const authOptions = {
       wellKnown: `https://api.descope.com/P2nWlxKYnuTFxOxH9FSopzkxhYil/.well-known/openid-configuration`,
       authorization: { params: { scope: "openid email profile" } },
       idToken: true,
-      clientId: "P2nWlxKYnuTFxOxH9FSopzkxhYil",
-      clientSecret: "<Descope Access Key>",
+      clientId: process.env.NEXT_PUBLIC_MATER_URL_KEY,
+      clientSecret: process.env.NEXTAUTH_SECRET,
       checks: ["pkce", "state"],
       profile(profile) {
         return {
