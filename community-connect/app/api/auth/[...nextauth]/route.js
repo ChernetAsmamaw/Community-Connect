@@ -10,7 +10,7 @@ export const authOptions = {
       authorization: { params: { scope: "openid email profile" } },
       idToken: true,
       clientId: "P2nWlxKYnuTFxOxH9FSopzkxhYil",
-      clientSecret: process.env.SECRET,
+      clientSecret: "dhsosobdfdshbd",
       checks: ["pkce", "state"],
       profile(profile) {
         return {
@@ -22,7 +22,7 @@ export const authOptions = {
       },
     },
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: "jdkfoowevwa",
   debug: true,
 };
 
