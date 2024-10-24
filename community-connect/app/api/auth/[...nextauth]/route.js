@@ -23,6 +23,7 @@ export const authOptions = {
     },
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true,
 };
 
 const handler = NextAuth(authOptions);
