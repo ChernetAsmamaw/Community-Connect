@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>{metadata.title}</title>
         <style>{montserrat.styles}</style>
       </head>
-      <body className={`${montserrat.variable} antialiased`}>
+      <body className=="flex flex-col min-h-screen">
         <NextAuthSessionProvider>
           <div className="flex flex-col min-h-screen">
             {/* Header and Toaster */}
