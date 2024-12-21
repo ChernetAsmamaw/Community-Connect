@@ -3,7 +3,7 @@ import CategoriesSideBar from "./_components/CategoriesSideBar";
 
 function layout({ children }) {
   return (
-    <div className="flex flex-col min-h-screen mb-44 pb-32">
+    <div className="min-h-screen">
       {/* Main Content */}
       <div className="flex-grow">
         <div className="grid lg:grid-cols-4 md:grid-cols-3 mt-8 gap-2 lg:mx-12 md:mx-4">
