@@ -10,8 +10,7 @@ function layout({ children }) {
           <CategoriesSideBar />
         </div>
         <div
-          className="md:col-span-3
-        "
+          className="md:col-span-3 min-h-screen "
         >
           {children}
         </div>
