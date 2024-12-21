@@ -4,7 +4,7 @@ import React from "react";
 
 function CategoryList({ categoryList }) {
   return (
-    <div className="mx-2 my-4 md:mx-20 lg:mx-30 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-12">
+    <div className="mx-2 my-4 md:mx-20 lg:mx-30 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-12 min-h-screen">
       {categoryList.length > 0
         ? categoryList.map((category, index) => (
             <Link
