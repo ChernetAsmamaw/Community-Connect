@@ -32,7 +32,7 @@ function CategoriesSideBar() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-screen">
       <h1 className="text-2xl font-extrabold text-primary mb-4">Categories</h1>
       <ul className="space-y-3">
         {categoryList.map((category, index) => (
