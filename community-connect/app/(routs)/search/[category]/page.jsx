@@ -18,7 +18,7 @@ function BusinessByCategory({ params }) {
   };
 
   return (
-    <div className='min-h-screen'>
+    <div>
       <BusinessList businessList={businesses} title={params.category} />
     </div>
   );
