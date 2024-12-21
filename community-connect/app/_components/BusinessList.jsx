@@ -5,7 +5,7 @@ import React from "react";
 
 function BusinessList({ title, businessList }) {
   return (
-    <div className="mt-10 lg:mx-16 md:mx-8 mx-4 min-h-screen">
+    <div className="mt-10 lg:mx-16 md:mx-8 mx-4">
       <h2 className="text-2xl pl-4 text-green-900 py-5 font-extrabold">
         {title || "Services and Businesses"}
       </h2>
