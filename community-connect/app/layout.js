@@ -5,7 +5,7 @@ import NextAuthSessionProvider from "./provider";
 import { Toaster } from "sonner";
 import Footer from "./_components/Footer";
 
-// Define the Montserrat font with both woff and woff2 formats for better compatibility
+// Define the Montserrat font
 const montserrat = localFont({
   src: [{ path: "./fonts/Montserrat-Regular.woff", weight: "400" }],
   variable: "--font-montserrat",
@@ -25,9 +25,8 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.png" />
         <meta name="description" content={metadata.description} />
         <title>{metadata.title}</title>
-        <style>{montserrat.styles}</style>
       </head>
-      <body className=="flex flex-col min-h-screen">
+      <body className={`${montserrat.variable} flex flex-col min-h-screen`}>
         <NextAuthSessionProvider>
           <div className="flex flex-col min-h-screen">
             {/* Header and Toaster */}
@@ -35,10 +34,12 @@ export default function RootLayout({ children }) {
             <Toaster />
             
             {/* Main Content */}
-            <main className="flex-grow mx-6 md:mx-16 lg:mx-0">{children}</main>
+            <main className="flex-grow mx-6 md:mx-16 lg:mx-0 pb-16">
+              {children}
+            </main>
             
             {/* Footer */}
-            <Footer className="fixed bottom-0" />
+            <Footer className="fixed bottom-0 w-full bg-gray-800 text-white text-center p-4" />
           </div>
         </NextAuthSessionProvider>
       </body>
