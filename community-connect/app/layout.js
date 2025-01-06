@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="flex-grow mx-6 md:mx-16 lg:mx-0">{children}</main>
             
             {/* Footer */}
-            <Footer />
+            <Footer className="fixed bottom-0" />
           </div>
         </NextAuthSessionProvider>
       </body>
